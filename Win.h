@@ -2,13 +2,16 @@
 #define WIN_H
 
 #include <gtkmm.h>
+#include <vector>
 #include "Face.h"
 #include "TTS.h"
+#include "Execute.h"
 
 class Win : public Gtk::Window
 {
 	public:
 	Win();
+	void notify();
 	~Win();
 
 	protected:
@@ -19,5 +22,12 @@ class Win : public Gtk::Window
 	Gtk::Button submit;
 
 	void on_submit();
+
+	private:
+	Execute worker;
+	Glib::Dispatcher m_Dispatcher;
+	Glib::Threads::Thread *worker_thread;
+
+	void on_message_from_worker();
 };
 #endif
